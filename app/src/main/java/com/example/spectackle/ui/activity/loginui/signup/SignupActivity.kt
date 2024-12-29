@@ -1,4 +1,4 @@
-package com.example.spectackle.signup
+package com.example.spectackle.ui.activity.loginui.signup
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

@@ -1,4 +1,4 @@
-package com.example.spectackle.category
+package com.example.spectackle.ui.activity.loginui.category
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
