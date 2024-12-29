@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,12 +8,10 @@
     tools:context=".category.CategoryPage">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="142dp"
-        android:layout_marginTop="3dp"
-        android:text="SpecTackle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</LinearLayout>
+        android:text="SpecsTackle"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="4dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
