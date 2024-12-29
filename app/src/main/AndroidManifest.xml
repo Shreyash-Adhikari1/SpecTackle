@@ -13,13 +13,7 @@
         android:theme="@style/Theme.SpecTackle"
         tools:targetApi="31">
         <activity
-            android:name=".signup.SignupActivity"
-            android:exported="false" />
-        <activity
             android:name=".loginui.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".category.CategoryPage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
