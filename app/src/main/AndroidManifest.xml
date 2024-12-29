@@ -16,7 +16,7 @@
             android:name=".loginui.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="CategoryPage"
+            android:name=".category.CategoryPage"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
