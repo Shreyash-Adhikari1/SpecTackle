@@ -10,12 +10,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="405dp"
-        android:layout_height="184dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="410dp"
+        android:layout_height="201dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/spectackle_logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
