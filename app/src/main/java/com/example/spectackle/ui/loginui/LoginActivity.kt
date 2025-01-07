@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
             } else if (password.isEmpty()) {
                 binding.passwordField.error = "Password Can't be Empty"
             }else{
-                Toast.makeText(this@LoginActivity,"Login successfull",Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity,"Login successful",Toast.LENGTH_LONG).show()
                 val intent= Intent(this@LoginActivity, DashboardActivity :: class.java)
                 startActivity(intent)
             }
