@@ -20,6 +20,11 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.signIn.setOnClickListener {
+            val intent = Intent(this@SignupActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.signUpBtn.setOnClickListener {
             val username: String = binding.regEmail.text.toString()
             val password: String = binding.regPassword.text.toString()
@@ -42,10 +47,8 @@ class SignupActivity : AppCompatActivity() {
 //
 //                }
 
-            binding.signIn.setOnClickListener {
-                val intent = Intent(this@SignupActivity, LoginActivity::class.java)
-                startActivity(intent)
-            }
+
+
             ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
                 val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                 v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

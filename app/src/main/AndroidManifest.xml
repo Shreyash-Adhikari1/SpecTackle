@@ -16,6 +16,7 @@
             android:name=".ui.loginui.LoginActivity"
             android:exported="true" />
 
+        <activity android:name=".ui.signup.SignupActivity"/>
 
         <activity
             android:name=".MainActivity"
