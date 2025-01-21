@@ -1,4 +1,4 @@
-package com.example.spectackle.ui.signup
+package com.example.spectackle.ui.activity.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivityLoginBinding
 import com.example.spectackle.databinding.ActivitySignupBinding
-import com.example.spectackle.ui.loginui.LoginActivity
+import com.example.spectackle.ui.activity.loginui.LoginActivity
 
 class SignupActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding

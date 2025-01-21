@@ -1,4 +1,4 @@
-package com.example.spectackle.ui.dashboard
+package com.example.spectackle.ui.activity.dashboard
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

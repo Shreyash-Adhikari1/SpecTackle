@@ -1,4 +1,4 @@
-package com.example.spectackle.ui.loginui
+package com.example.spectackle.ui.activity.loginui
 
 import android.content.Context
 import android.content.Intent
@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivityLoginBinding
-import com.example.spectackle.ui.dashboard.DashboardActivity
-import com.example.spectackle.ui.signup.SignupActivity
+import com.example.spectackle.ui.activity.dashboard.DashboardActivity
+import com.example.spectackle.ui.activity.signup.SignupActivity
 
 class LoginActivity : AppCompatActivity() {
 
