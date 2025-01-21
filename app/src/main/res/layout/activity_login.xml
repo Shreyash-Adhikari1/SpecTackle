@@ -102,8 +102,8 @@
         android:layout_height="43dp"
         android:layout_marginStart="116dp"
         android:layout_marginTop="72dp"
-        android:background="@drawable/button_shape"
-        android:text="Sign in"
+        android:background="@drawable/button_style"
+        android:text="Sign In"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordField" />
 
