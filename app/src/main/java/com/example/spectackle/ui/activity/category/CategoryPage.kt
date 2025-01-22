@@ -1,4 +1,4 @@
-git checkoutpackage com.example.spectackle.category
+package com.example.spectackle.ui.activity.category
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
