@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "148538125408",
+    "firebase_url": "https://specktackle-d72f4-default-rtdb.firebaseio.com",
+    "project_id": "specktackle-d72f4",
+    "storage_bucket": "specktackle-d72f4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148538125408:android:f50ec2b999f9fd3b03e705",
+        "android_client_info": {
+          "package_name": "com.example.spectackle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4XCb08TWB1Zm-Aez-tjvhxxl-CDxyMDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,10 +13,13 @@
         android:theme="@style/Theme.SpecTackle"
         tools:targetApi="31">
         <activity
-            android:name=".signup.SignupActivity"
+            android:name=".ui.activity.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".loginui.LoginActivity"
+            android:name=".ui.activity.loginui.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.signup.SignupActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
