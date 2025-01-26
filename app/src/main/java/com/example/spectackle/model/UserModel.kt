@@ -1,4 +1,6 @@
 package com.example.spectackle.model
 
-class UserModel {
-}
+data class UserModel(
+    val uid: String,
+    val email: String
+)

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
+
 }
     android {
         namespace = "com.example.spectackle"
@@ -45,7 +47,13 @@ plugins {
         implementation(libs.material)
         implementation(libs.androidx.activity)
         implementation(libs.androidx.constraintlayout)
+        implementation(libs.firebase.auth)
+        implementation(libs.firebase.database)
         testImplementation(libs.junit)
         androidTestImplementation(libs.androidx.junit)
         androidTestImplementation(libs.androidx.espresso.core)
+        implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
+        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
+
+
     }

@@ -69,8 +69,8 @@
         android:layout_height="46dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:ems="10"
         android:background="@drawable/field_shape"
+        android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -81,9 +81,9 @@
         android:layout_height="46dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
+        android:background="@drawable/field_shape"
         android:ems="10"
         android:inputType="number"
-        android:background="@drawable/field_shape"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -103,9 +103,9 @@
         android:layout_height="46dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
+        android:background="@drawable/field_shape"
         android:ems="10"
         android:inputType="textPassword"
-        android:background="@drawable/field_shape"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -150,4 +150,16 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rememberMeChckBox" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/regEmail"
+        app:layout_constraintStart_toStartOf="@+id/signUpBtn"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
