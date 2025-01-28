@@ -29,9 +29,9 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Toast.makeText(requireContext (CartFragment),"Bruhh",Toast.LENGTH_LONG).show() //this@ garera context haalnu mildaina so requireContext garnu parxa
-
-        val intent = Intent(requireActivity())//just in-case requireContext ma error aayo bhaney requireActivity garney
+//        Toast.makeText(requireContext (CartFragment),"Bruhh",Toast.LENGTH_LONG).show() //this@ garera context haalnu mildaina so requireContext garnu parxa
+//
+//        val intent = Intent(requireActivity())//just in-case requireContext ma error aayo bhaney requireActivity garney
 
     }
 
