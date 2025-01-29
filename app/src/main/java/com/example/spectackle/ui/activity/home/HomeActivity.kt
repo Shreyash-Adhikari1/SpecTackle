@@ -5,9 +5,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivityHomeBinding
-import com.example.spectackle.databinding.ActivitySignupBinding
+import com.example.spectackle.ui.fragment.CartFragment
+import com.example.spectackle.ui.fragment.CategoryFragment
+import com.example.spectackle.ui.fragment.HomeFragment
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
@@ -18,11 +23,32 @@ class HomeActivity : AppCompatActivity() {
 
         binding=ActivityHomeBinding.inflate(layoutInflater);
         setContentView(binding.root)
+        //default Fragment set to home fragment
+        replaceFragment(HomeFragment())
+
+        binding.bottomNavigationView.setOnItemSelectedListener { menu ->
+            when(menu.itemId){
+                R.id.navHome -> replaceFragment(HomeFragment())
+                R.id.navCategory -> replaceFragment(CategoryFragment())
+                R.id.navCart -> replaceFragment(CartFragment())
+                //R.id.navAccount -> replaceFragment(PersonFragment())
+                else -> {}
+            }
+            true
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun replaceFragment(fragment:Fragment) {
+        val fragmentManager: FragmentManager =supportFragmentManager
+        val fragmentTransaction: FragmentTransaction =fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.mainFrame,fragment)
+        fragmentTransaction.commit()
+
     }
 }
