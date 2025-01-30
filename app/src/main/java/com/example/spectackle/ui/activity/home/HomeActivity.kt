@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.spectackle.R
+import com.example.spectackle.adapter.HomeProductsAdapter
 import com.example.spectackle.databinding.ActivityHomeBinding
 import com.example.spectackle.ui.fragment.CartFragment
 import com.example.spectackle.ui.fragment.CategoryFragment
@@ -16,6 +17,7 @@ import com.example.spectackle.ui.fragment.HomeFragment
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         //default Fragment set to home fragment
         replaceFragment(HomeFragment())
+
+
 
         binding.bottomNavigationView.setOnItemSelectedListener { menu ->
             when(menu.itemId){
