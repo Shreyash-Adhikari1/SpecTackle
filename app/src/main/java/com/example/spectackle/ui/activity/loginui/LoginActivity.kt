@@ -13,6 +13,7 @@ import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivityLoginBinding
 import com.example.spectackle.repository.UserRepositoryImpl
 import com.example.spectackle.ui.activity.dashboard.DashboardActivity
+import com.example.spectackle.ui.activity.home.HomeActivity
 import com.example.spectackle.ui.activity.signup.SignupActivity
 import com.example.spectackle.utils.FirebaseHelper
 import com.example.spectackle.utils.Resource
@@ -58,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 is Resource.Success<*> -> {
                     binding.progressBar.visibility = View.GONE // Hide progress bar
                     Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
                     startActivity(intent)
                     finish() // Close the LoginActivity to prevent going back
                 }
@@ -74,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         // Handle window insets
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homeLogo)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
