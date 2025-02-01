@@ -6,14 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.CategoryFragment">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="253dp"
-        android:layout_height="240dp"
-        android:layout_marginTop="232dp"
-        android:src="@drawable/category"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
