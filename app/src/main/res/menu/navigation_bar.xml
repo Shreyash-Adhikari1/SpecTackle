@@ -11,5 +11,5 @@
         android:icon="@drawable/cart"/>
     <item android:id="@+id/navAccount"
         android:title="Wishlist"
-        android:icon="@drawable/profile"/>
+        android:icon="@drawable/wishlist"/>
 </menu>
