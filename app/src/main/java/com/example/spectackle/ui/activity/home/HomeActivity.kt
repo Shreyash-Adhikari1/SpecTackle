@@ -14,6 +14,7 @@ import com.example.spectackle.databinding.ActivityHomeBinding
 import com.example.spectackle.ui.fragment.CartFragment
 import com.example.spectackle.ui.fragment.CategoryFragment
 import com.example.spectackle.ui.fragment.HomeFragment
+import com.example.spectackle.ui.fragment.WishlistFragment
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
@@ -35,7 +36,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navHome -> replaceFragment(HomeFragment())
                 R.id.navCategory -> replaceFragment(CategoryFragment())
                 R.id.navCart -> replaceFragment(CartFragment())
-                //R.id.navAccount -> replaceFragment(PersonFragment())
+                R.id.navWishlist -> replaceFragment(WishlistFragment())
                 else -> {}
             }
             true
