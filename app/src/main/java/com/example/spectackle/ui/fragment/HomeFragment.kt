@@ -34,17 +34,24 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState) // Call super method
 
         // Initialize your lists
-        imageList.add(R.drawable.specx_gold)
-        imageList.add(R.drawable.specx_cateye_green)
-        imageList.add(R.drawable.specx_black)
 
-        nameList.add("SpecX Gold Shades")
+        imageList.add(R.drawable.milkyclassic)
+        imageList.add(R.drawable.blackcateye)
+        imageList.add(R.drawable.specx_cateye_green)
+
+
+
+        nameList.add("Milky Classic")
+        nameList.add("Black Cateye")
         nameList.add("SpecX Cateye Green")
-        nameList.add("Black & Gold")
+
+
+
 
         priceList.add("Rs 1,500")
-        priceList.add("Rs 1,335")
+        priceList.add("Rs 1,000")
         priceList.add("Rs 1,900")
+
 
 
         adapter = HomeProductsAdapter(
@@ -55,8 +62,10 @@ class HomeFragment : Fragment() {
         )
 
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 //        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),0)
-    }
 
+
+    }
 }
