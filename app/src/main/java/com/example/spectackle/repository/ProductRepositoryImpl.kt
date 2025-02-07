@@ -44,7 +44,7 @@ class ProductRepositoryImpl:ProductRepository {
     override fun deleteProduct(productId: String, callback: (Boolean, String) -> Unit) {
         ref.child(productId).removeValue().addOnCompleteListener{
             if(it.isSuccessful){
-                callback(true,"Product Added Successfully")
+                callback(true,"Product Deleted Successfully")
             } else{
                 callback(false,"${it.exception?.message}")
             }
