@@ -88,8 +88,12 @@ class CartRepositoryImpl : CartRepository {
     }
 
     override fun clearCart(callback: (Boolean, String) -> Unit) {
-        TODO("Not yet implemented")
+        ref.removeValue().addOnCompleteListener {
+            if (it.isSuccessful) {
+                callback(true, "Cart cleared successfully")
+            } else {
+                callback(false, it.exception?.message ?: "Unknown error")
+            }
+        }
     }
-
-
 }

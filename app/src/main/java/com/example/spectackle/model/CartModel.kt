@@ -5,12 +5,16 @@ import android.os.Parcelable
 
 class CartModel (
     var cartProductId : String = "",
+    var userId: String="",
+    var productId: String="",
     var cartProductName : String = "",
     var cartProductDesc : String = "",
     var cartProductPrice : Int = 0,
     var cartImageUrl : String = "",
 ):Parcelable{
     constructor(parcel: Parcel) : this(
+        parcel.readString()?:"",
+        parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readString()?:"",
@@ -21,6 +25,8 @@ class CartModel (
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cartProductId)
+        parcel.writeString(userId)
+        parcel.writeString(productId)
         parcel.writeString(cartProductName)
         parcel.writeString(cartProductDesc)
         parcel.writeInt(cartProductPrice)
