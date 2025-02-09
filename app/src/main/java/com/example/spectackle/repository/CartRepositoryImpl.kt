@@ -1,7 +1,6 @@
 package com.example.spectackle.repository
 
-import android.content.Context
-import android.net.Uri
+import com.example.spectackle.model.CartModel
 import com.example.spectackle.model.ProductModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -9,42 +8,41 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class ProductRepositoryImpl:ProductRepository {
-
+class CartRepositoryImpl : CartRepository {
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
-    val ref : DatabaseReference = database.reference.child("products")
-    override fun addProduct(productModel: ProductModel, callback: (Boolean, String) -> Unit) {
+    val ref : DatabaseReference = database.reference.child("cart")
 
+    override fun addToCart(cartModel: CartModel, callback: (Boolean, String) -> Unit) {
         var id = ref.push().key.toString()
-        productModel.productId = id
+        cartModel.cartProductId = id
 
-        ref.child(id).setValue(productModel).addOnCompleteListener{
+        ref.child(id).setValue(cartModel).addOnCompleteListener{
             if(it.isSuccessful){
-                callback(true,"Product Added Successfully")
+                callback(true,"Product Added to Cart Successfully")
             } else{
                 callback(false,"${it.exception?.message.toString()}")
             }
         }
     }
 
-    override fun updateProduct(
-        productId: String,
+    override fun updateCart(
+        cartProductId: String,
         data: MutableMap<String, Any>,
         callback: (Boolean, String) -> Unit
     ) {
-        ref.child(productId).updateChildren(data).addOnCompleteListener{
+        ref.child(cartProductId).updateChildren(data).addOnCompleteListener{
             if(it.isSuccessful){
-                callback(true,"Product Added Successfully")
+                callback(true,"Product Added to Cart Successfully")
             } else{
                 callback(false,"${it.exception?.message}")
             }
         }
     }
 
-    override fun deleteProduct(productId: String, callback: (Boolean, String) -> Unit) {
-        ref.child(productId).removeValue().addOnCompleteListener{
+    override fun deleteFromCart(cartProductId: String, callback: (Boolean, String) -> Unit) {
+        ref.child(cartProductId).removeValue().addOnCompleteListener{
             if(it.isSuccessful){
-                callback(true,"Product Deleted Successfully")
+                callback(true,"Product Deleted from Cart Successfully")
             } else{
                 callback(false,"${it.exception?.message}")
             }
@@ -52,36 +50,34 @@ class ProductRepositoryImpl:ProductRepository {
     }
 
     override fun getProductById(
-        productId: String,
-        callback: (ProductModel?, Boolean, String) -> Unit
+        cartProductId: String,
+        callback: (CartModel?, Boolean, String) -> Unit
     ) {
-        ref.child(productId).addValueEventListener(object: ValueEventListener {
+        ref.child(cartProductId).addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
-                    var model = snapshot.getValue(ProductModel::class.java)
+                    var model = snapshot.getValue(CartModel::class.java)
                     callback(model,true,"Product Fetched Successfully")
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 callback(null, false, error.toString())
             }
         })
-
     }
 
-    override fun getAllProduct(callback: (List<ProductModel>?, Boolean, String) -> Unit) {
+    override fun getAllProduct(callback: (List<CartModel>?, Boolean, String) -> Unit) {
         ref.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                var products = mutableListOf<ProductModel>()
+                var cartProducts = mutableListOf<CartModel>()
                 if(snapshot.exists()){
                     for(eachProduct in snapshot.children){
-                        var data = eachProduct.getValue(ProductModel::class.java)
+                        var data = eachProduct.getValue(CartModel::class.java)
                         if(data != null){
-                            products.add(data)
+                            cartProducts.add(data)
                         }
                     }
-                    callback(products,true,"Product Added Successfully")
+                    callback(cartProducts,true,"Product Fetched to CartSuccessfully")
                 }
             }
 
@@ -91,11 +87,13 @@ class ProductRepositoryImpl:ProductRepository {
         })
     }
 
-    override fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFileNameFromUri(context: Context, uri: Uri): String? {
-        TODO("Not yet implemented")
+    override fun clearCart(callback: (Boolean, String) -> Unit) {
+        ref.removeValue().addOnCompleteListener {
+            if (it.isSuccessful) {
+                callback(true, "Cart cleared successfully")
+            } else {
+                callback(false, it.exception?.message ?: "Unknown error")
+            }
+        }
     }
 }

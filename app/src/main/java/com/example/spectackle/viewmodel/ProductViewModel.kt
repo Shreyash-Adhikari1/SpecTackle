@@ -8,51 +8,62 @@ import com.example.spectackle.model.ProductModel
 import com.example.spectackle.repository.ProductRepositoryImpl
 
 class ProductViewModel(private val repo: ProductRepositoryImpl) : ViewModel() {
-
-    fun addProduct(productModel: ProductModel, callback: (Boolean, String) -> Unit) {
+    fun addProduct(
+        productModel: ProductModel,
+        callback: (Boolean, String) -> Unit
+    ) {
         repo.addProduct(productModel, callback)
     }
 
-    fun updateProduct(productId: String, data: MutableMap<String, Any>, callback: (Boolean, String) -> Unit) {
+    fun updateProduct(
+        productId: String,
+        data: MutableMap<String, Any>,
+        callback: (Boolean, String) -> Unit
+    ) {
         repo.updateProduct(productId, data, callback)
     }
 
-    fun deleteProduct(productId: String, callback: (Boolean, String) -> Unit) {
+    fun deleteProduct(
+        productId: String,
+        callback: (Boolean, String) -> Unit
+    ) {
         repo.deleteProduct(productId, callback)
     }
 
-    // LiveData properties (Fixed)
-    private val _products = MutableLiveData<ProductModel>()
-    val products: MutableLiveData<ProductModel>
+    var _products = MutableLiveData<ProductModel?>()
+    var products = MutableLiveData<ProductModel?>()
         get() = _products
 
-    private val _allProducts = MutableLiveData<List<ProductModel>>()
-    val allProducts: MutableLiveData<List<ProductModel>>
+    var _allProducts = MutableLiveData<List<ProductModel>?>()
+    var allProducts = MutableLiveData<List<ProductModel>?>()
         get() = _allProducts
 
-    fun getProductById(productId: String) {
-        repo.getProductById(productId) { products: ProductModel?, success, _ ->
-            if (success && products != null) {
+
+    fun getProductById(productId: String){
+        repo.getProductById(productId){
+                products,success,message->
+            if(success){
                 _products.value = products
             }
         }
     }
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: MutableLiveData<Boolean>
+    var _loading = MutableLiveData<Boolean>()
+    var loading = MutableLiveData<Boolean>()
         get() = _loading
 
     fun getAllProduct() {
         _loading.value = true
-        repo.getAllProduct { products, success, _ ->
-            if (success) {
+        repo.getAllProduct{
+                products,success,message->
+            if(success){
                 _allProducts.value = products
+                _loading.value = false
             }
-            _loading.value = false
         }
     }
 
-    fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit) {
+    fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit){
         repo.uploadImage(context, imageUri, callback)
     }
 }
