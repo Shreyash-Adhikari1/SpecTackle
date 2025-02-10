@@ -12,7 +12,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivityLoginBinding
 import com.example.spectackle.repository.UserRepositoryImpl
-import com.example.spectackle.ui.activity.dashboard.DashboardActivity
 import com.example.spectackle.ui.activity.home.HomeActivity
 import com.example.spectackle.ui.activity.signup.SignupActivity
 import com.example.spectackle.utils.FirebaseHelper
