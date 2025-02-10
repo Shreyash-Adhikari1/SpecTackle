@@ -54,6 +54,8 @@ plugins {
         androidTestImplementation(libs.androidx.espresso.core)
         implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
+        implementation ("androidx.recyclerview:recyclerview:1.3.2")
+        implementation ("androidx.recyclerview:recyclerview-selection:1.1.0")
 
 
     }
