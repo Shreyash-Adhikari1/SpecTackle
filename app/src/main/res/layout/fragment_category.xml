@@ -12,8 +12,8 @@
 
         android:id="@+id/sunglassesCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15"
         tools:ignore="MissingConstraints">
@@ -50,7 +50,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/eyewearCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="205dp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sunglassesCard"
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="178dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:text="Eyewear"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="184dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:text="Lens"
                 android:textSize="14sp"
                 android:textStyle="bold"
