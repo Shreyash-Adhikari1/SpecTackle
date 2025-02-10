@@ -13,7 +13,7 @@ import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivitySignupBinding
 import com.example.spectackle.model.UserModel
 import com.example.spectackle.repository.UserRepositoryImpl
-import com.example.spectackle.ui.activity.dashboard.DashboardActivity
+import com.example.spectackle.ui.activity.home.HomeActivity
 import com.example.spectackle.utils.FirebaseHelper
 import com.example.spectackle.utils.Resource
 import com.example.spectackle.viewmodel.UserViewModel
@@ -52,7 +52,7 @@ class SignupActivity : AppCompatActivity() {
                 is Resource.Success<UserModel> -> {
                     binding.progressBar.visibility = View.GONE // Hide progress bar
                     Toast.makeText(this@SignupActivity, "Registration successful", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@SignupActivity, DashboardActivity::class.java)
+                    val intent = Intent(this@SignupActivity, HomeActivity::class.java)
                     startActivity(intent)
                     finish() // Close the SignupActivity to prevent going back
                 }

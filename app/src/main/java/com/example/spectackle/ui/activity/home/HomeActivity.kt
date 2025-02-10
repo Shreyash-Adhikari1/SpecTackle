@@ -1,5 +1,6 @@
 package com.example.spectackle.ui.activity.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.spectackle.R
 import com.example.spectackle.adapter.HomeProductsAdapter
 import com.example.spectackle.databinding.ActivityHomeBinding
+import com.example.spectackle.ui.activity.profile.UserProfileActivity
 import com.example.spectackle.ui.fragment.CartFragment
 import com.example.spectackle.ui.fragment.CategoryFragment
 import com.example.spectackle.ui.fragment.HomeFragment
@@ -30,6 +32,10 @@ class HomeActivity : AppCompatActivity() {
         replaceFragment(HomeFragment())
 
 
+        binding.homeProfile.setOnClickListener{
+            val intent=Intent(this@HomeActivity,UserProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menu ->
             when(menu.itemId){
