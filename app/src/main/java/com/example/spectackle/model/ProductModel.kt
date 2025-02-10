@@ -3,7 +3,8 @@ package com.example.spectackle.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class ProductModel(
+class
+ProductModel(
     var productId : String = "",
     var productName : String = "",
     var productDesc : String = "",
