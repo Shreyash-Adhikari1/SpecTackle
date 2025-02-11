@@ -6,23 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.spectackle.R
-import com.example.spectackle.databinding.ActivityUserProfileBinding
+import com.example.spectackle.databinding.FragmentProfileBinding
 import com.example.spectackle.databinding.FragmentSearchBinding
-//first Make Adapter Spinner ko laagi
-//data source lai chahi ".observe" garera database baata lyauney
-class SearchFragment : Fragment() {
-    lateinit var binding: FragmentSearchBinding
+
+class ProfileFragment : Fragment() {
+    lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=FragmentSearchBinding.inflate(inflater,container,false)
+        binding=FragmentProfileBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+
     }
 }
