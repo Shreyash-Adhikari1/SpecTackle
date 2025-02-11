@@ -1,88 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <!-- Product Image -->
+    <ImageView
+        android:id="@+id/cartImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="for product"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.127"
+        tools:src="@tools:sample/avatars"
+        tools:ignore="HardcodedText" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <!-- Product Name -->
+    <TextView
+        android:id="@+id/cartProductPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Product Name"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cartImage"
+        app:layout_constraintTop_toTopOf="@id/cartImage"
+        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/cartProductPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="28dp"
-                android:text="Product Name"
-                app:layout_constraintStart_toEndOf="@+id/cartImage"
-                app:layout_constraintTop_toTopOf="parent" />
+    <!-- Product Price -->
+    <TextView
+        android:id="@+id/displayPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Rs 1500"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/cartImage"
+        app:layout_constraintTop_toBottomOf="@id/cartProductPrice"
+        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/displayPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="58dp"
-                android:layout_marginTop="4dp"
-                android:text="Product Price"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/cartImage"
-                app:layout_constraintTop_toBottomOf="@+id/cartProductPrice" />
+    <!-- Decrease Quantity Button -->
 
-            <ImageView
-                android:id="@+id/cartImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+    <!-- Quantity Text -->
 
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="34dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="116dp"
-                android:layout_marginTop="100dp"
-                app:layout_constraintStart_toEndOf="@+id/cartImage"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/cart_deduce" />
+    <!-- Increase Quantity Button -->
 
-            <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="34dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginEnd="33dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/cart_add" />
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="28dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="for decrese"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cartQuantitytext"
+        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cartImage"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/cart_deduce"
+        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/cartQuantitytext"
-                android:layout_width="17dp"
-                android:layout_height="33dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="100dp"
-                android:text="1"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageButton2"
-                app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/cartQuantitytext"
+        android:layout_width="41dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="108dp"
+        android:text="1"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintStart_toEndOf="@+id/cartImage"
+        app:layout_constraintTop_toBottomOf="@+id/cartProductPrice"
+        app:layout_constraintVertical_bias="0.934"
+        tools:ignore="HardcodedText" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.cardview.widget.CardView>
-    
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="for increse"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cartProductPrice"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toEndOf="@+id/cartImage"
+        app:layout_constraintTop_toBottomOf="@+id/cartProductPrice"
+        app:layout_constraintVertical_bias="0.906"
+        app:srcCompat="@drawable/cart_add"
+        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

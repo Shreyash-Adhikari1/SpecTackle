@@ -2,60 +2,66 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
-
 }
-    android {
-        namespace = "com.example.spectackle"
-        compileSdk = 35
 
-        buildFeatures {
-            viewBinding = true
-        }
+android {
+    namespace = "com.example.spectackle"
+    compileSdk = 35
 
-        defaultConfig {
-            applicationId = "com.example.spectackle"
-            minSdk = 24
-            targetSdk = 34
-            versionCode = 1
-            versionName = "1.0"
+    buildFeatures {
+        viewBinding = true
+    }
 
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
+    defaultConfig {
+        applicationId = "com.example.spectackle"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
 
-        buildTypes {
-            release {
-                isMinifyEnabled = false
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-                )
-            }
-        }
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-        }
-        kotlinOptions {
-            jvmTarget = "11"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
-    dependencies {
-
-        implementation(libs.androidx.core.ktx)
-        implementation(libs.androidx.appcompat)
-        implementation(libs.material)
-        implementation(libs.androidx.activity)
-        implementation(libs.androidx.constraintlayout)
-        implementation(libs.firebase.auth)
-        implementation(libs.firebase.database)
-        testImplementation(libs.junit)
-        androidTestImplementation(libs.androidx.junit)
-        androidTestImplementation(libs.androidx.espresso.core)
-        implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
-        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
-        implementation ("androidx.recyclerview:recyclerview:1.3.2")
-        implementation ("androidx.recyclerview:recyclerview-selection:1.1.0")
-
-
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+dependencies {
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
+
+    // Jetpack dependencies
+    implementation(libs.androidx.activity.ktx) // For by viewModels
+    implementation(libs.androidx.lifecycle.viewmodel.ktx) // For ViewModel
+
+    // Glide (Image Loading)
+    implementation(libs.glide)
+    annotationProcessor(libs.compiler)
+
+    // Testing dependencies
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+}

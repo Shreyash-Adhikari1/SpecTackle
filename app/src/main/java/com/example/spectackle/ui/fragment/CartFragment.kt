@@ -1,64 +1,58 @@
 package com.example.spectackle.ui.fragment
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.spectackle.R
+
 import com.example.spectackle.adapter.CartAdapter
-import com.example.spectackle.adapter.HomeProductsAdapter
 import com.example.spectackle.databinding.FragmentCartBinding
-import com.example.spectackle.ui.activity.home.HomeActivity
+import com.example.spectackle.model.CartModel
 
+class CartFragment : Fragment(), CartAdapter.OnQuantityChangeListener {
 
-class CartFragment : Fragment() {
-
-    lateinit var binding: FragmentCartBinding
-    lateinit var adapter: CartAdapter
+    private lateinit var binding: FragmentCartBinding
+    private lateinit var adapter: CartAdapter
+    private val cartItems = mutableListOf<CartModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentCartBinding.inflate(inflater,container,false)// maathi parameter ma jj xa tehi pass garney
+    ): View {
+        binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    //code chahi yes bhitra garney
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        // Initialize your lists
-//        imageList.add(R.drawable.specx_gold)
-//        imageList.add(R.drawable.specx_cateye_green)
-//        imageList.add(R.drawable.specx_black)
-//
-//        nameList.add("SpecX Gold Shades")
-//        nameList.add("SpecX Cateye Green")
-//        nameList.add("Black & Gold")
-//
-//        priceList.add("Rs 1,500")
-//        priceList.add("Rs 1,335")
-//        priceList.add("Rs 1,900")
-//
-//
-//        adapter = HomeProductsAdapter(
-//            requireContext(),
-//            imageList,
-//            nameList,
-//            priceList
-//        )
-//
-//        binding.recyclerView.adapter = adapter
-//        binding.recyclerView.layoutManager=
-//            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,false)
+        // Sample data
+        cartItems.addAll(listOf(
+            CartModel("1", "user1", "prod1", "SpecX Gold Shades", "Gold frame shades", 1500, "https://example.com/specx_gold.jpg", 1),
+            CartModel("2", "user1", "prod2", "SpecX Cate Green", "Cate design in green", 1335, "https://example.com/specx_cateye_green.jpg", 1),
+            CartModel("3", "user1", "prod3", "Black & Gold", "Black and gold finish", 1900, "https://example.com/specx_black.jpg", 1)
+        ))
 
-
+        setupRecyclerView()
+        updateTotal()
     }
 
+    private fun setupRecyclerView() {
+        adapter = CartAdapter(requireContext(), cartItems, this)
+        binding.cartRecycler.layoutManager = LinearLayoutManager(requireContext())
+        binding.cartRecycler.adapter = adapter
+    }
+
+    override fun onQuantityChanged() {
+        updateTotal()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateTotal() {
+        val total = cartItems.sumOf { it.cartProductPrice * it.quantity }
+        binding.cartRsTxt.text = "Rs. $total"
+    }
 }
