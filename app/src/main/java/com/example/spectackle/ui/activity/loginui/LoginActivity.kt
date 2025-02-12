@@ -9,10 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivityLoginBinding
 import com.example.spectackle.repository.UserRepositoryImpl
-import com.example.spectackle.ui.activity.dashboard.DashboardActivity
 import com.example.spectackle.ui.activity.home.HomeActivity
 import com.example.spectackle.ui.activity.signup.SignupActivity
 import com.example.spectackle.utils.FirebaseHelper
@@ -32,50 +30,42 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Navigate to SignupActivity
         binding.signUpText.setOnClickListener {
-            val intent = Intent(this@LoginActivity, SignupActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SignupActivity::class.java))
         }
 
-        // Handle login button click
         binding.button.setOnClickListener {
-            val email: String = binding.emailField.text.toString()
-            val password: String = binding.passwordField.text.toString()
+            val email = binding.emailField.text.toString()
+            val password = binding.passwordField.text.toString()
 
             if (email.isEmpty()) {
                 binding.emailField.error = "Email Can't be Empty"
             } else if (password.isEmpty()) {
                 binding.passwordField.error = "Password Can't be Empty"
             } else {
-                // Perform Firebase authentication
                 userViewModel.login(email, password)
             }
         }
 
-        // Observe login status
         userViewModel.loginStatus.observe(this) { resource ->
             when (resource) {
-                is Resource.Success<*> -> {
-                    binding.progressBar.visibility = View.GONE // Hide progress bar
-                    Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish() // Close the LoginActivity to prevent going back
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Login successful", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
                 }
-                is Resource.Error<*> -> {
-                    binding.progressBar.visibility = View.GONE // Hide progress bar
-                    val errorMessage = resource.message ?: "An unknown error occurred"
-                    Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, resource.message ?: "Login failed", Toast.LENGTH_LONG).show()
                 }
-                is Resource.Loading<*> -> {
-                    binding.progressBar.visibility = View.VISIBLE // Show progress bar
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }
 
-        // Handle window insets
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
