@@ -12,10 +12,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.spectackle.R
 import com.example.spectackle.adapter.HomeProductsAdapter
 import com.example.spectackle.databinding.ActivityHomeBinding
-import com.example.spectackle.ui.activity.profile.UserProfileActivity
 import com.example.spectackle.ui.fragment.CartFragment
 import com.example.spectackle.ui.fragment.CategoryFragment
 import com.example.spectackle.ui.fragment.HomeFragment
+import com.example.spectackle.ui.fragment.ProfileFragment
 import com.example.spectackle.ui.fragment.WishlistFragment
 
 class HomeActivity : AppCompatActivity() {
@@ -33,8 +33,7 @@ class HomeActivity : AppCompatActivity() {
 
 
         binding.homeProfile.setOnClickListener{
-            val intent=Intent(this@HomeActivity,UserProfileActivity::class.java)
-            startActivity(intent)
+            replaceFragment(ProfileFragment())
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menu ->
