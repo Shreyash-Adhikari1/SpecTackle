@@ -16,6 +16,7 @@ import com.example.spectackle.ui.fragment.CartFragment
 import com.example.spectackle.ui.fragment.CategoryFragment
 import com.example.spectackle.ui.fragment.HomeFragment
 import com.example.spectackle.ui.fragment.ProfileFragment
+import com.example.spectackle.ui.fragment.SearchFragment
 import com.example.spectackle.ui.fragment.WishlistFragment
 
 class HomeActivity : AppCompatActivity() {
@@ -36,12 +37,17 @@ class HomeActivity : AppCompatActivity() {
             replaceFragment(ProfileFragment())
         }
 
+        binding.searchIcon.setOnClickListener{
+            replaceFragment(SearchFragment())
+        }
+
         binding.bottomNavigationView.setOnItemSelectedListener { menu ->
             when(menu.itemId){
                 R.id.navHome -> replaceFragment(HomeFragment())
                 R.id.navCategory -> replaceFragment(CategoryFragment())
                 R.id.navCart -> replaceFragment(CartFragment())
                 R.id.navWishlist -> replaceFragment(WishlistFragment())
+
                 else -> {}
             }
             true
