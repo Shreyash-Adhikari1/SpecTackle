@@ -66,6 +66,14 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
+        binding.searchIcon.setOnClickListener{
+            replaceFragment(SearchFragment())
+        }
+
+        binding.homeProfile.setOnClickListener {
+            replaceFragment(ProfileFragment())
+        }
+
         // Default Fragment
         replaceFragment(HomeFragment())
     }
