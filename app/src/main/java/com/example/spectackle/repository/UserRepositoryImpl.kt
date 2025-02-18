@@ -32,4 +32,14 @@ class UserRepositoryImpl(private val firebaseAuth: FirebaseAuth) : UserRepositor
                 }
             }
     }
+
+    // New method to get current user details
+    override fun getUserProfile(callback: (Resource<UserModel>) -> Unit) {
+        val user = firebaseAuth.currentUser
+        if (user != null) {
+            callback(Resource.Success(UserModel(user.uid, user.email ?: "No Email Found")))
+        } else {
+            callback(Resource.Error("User not logged in"))
+        }
+    }
 }
