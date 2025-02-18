@@ -54,6 +54,7 @@ plugins {
         androidTestImplementation(libs.androidx.espresso.core)
         implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
+        implementation ("com.github.bumptech.glide:glide:4.15.1")
 
 
     }
