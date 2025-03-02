@@ -21,9 +21,9 @@ class HomeItemsAdapter(
     }
 
     class HomeItemsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productImage: ImageView = itemView.findViewById(R.id.imageView12)
-        val productName: TextView = itemView.findViewById(R.id.textView18)
-        val productPrice: TextView = itemView.findViewById(R.id.textView19)
+        val productImage: ImageView = itemView.findViewById(R.id.wishlistItemImage)
+        val productName: TextView = itemView.findViewById(R.id.wishlistItemName)
+        val productPrice: TextView = itemView.findViewById(R.id.wishlistItemName)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeItemsViewHolder {

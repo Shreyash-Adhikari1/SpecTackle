@@ -1,26 +1,31 @@
 package com.example.spectackle.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spectackle.R
-import com.example.spectackle.model.WishlistItem
+import com.example.spectackle.manager.CartManager
+import com.example.spectackle.manager.WishlistManager
+import com.example.spectackle.model.Product
+import com.example.spectackle.ui.activity.ProductDetailActivity
 
 class WishlistAdapter(
     private val context: Context,
-    private val wishlistItems: MutableList<WishlistItem>,
-    private val onWishlistToggle: (WishlistItem, Boolean) -> Unit
+    private var wishlistItems: MutableList<Product>
 ) : RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder>() {
 
     class WishlistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productImage: ImageView = itemView.findViewById(R.id.imageView12)
-        val productName: TextView = itemView.findViewById(R.id.textView18)
-        val productPrice: TextView = itemView.findViewById(R.id.textView19)
-        val wishlistIcon: ImageView = itemView.findViewById(R.id.imageView13) // Wishlist Icon
+        val productImage: ImageView = itemView.findViewById(R.id.wishlistItemImage)
+        val productName: TextView = itemView.findViewById(R.id.wishlistItemName)
+        val productPrice: TextView = itemView.findViewById(R.id.wishlistItemPrice)
+        val addToCartBtn: ImageButton = itemView.findViewById(R.id.addToCartFromWishlist)
+        val removeFromWishlist: ImageButton = itemView.findViewById(R.id.removeFromWishlist)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishlistViewHolder {
@@ -31,29 +36,37 @@ class WishlistAdapter(
     override fun getItemCount(): Int = wishlistItems.size
 
     override fun onBindViewHolder(holder: WishlistViewHolder, position: Int) {
-        val item = wishlistItems[position]
+        val product = wishlistItems[position]
 
-        holder.productImage.setImageResource(item.productImage)
-        holder.productName.text = item.productName
-        holder.productPrice.text = item.productPrice
+        holder.productImage.setImageResource(product.imageResource)
+        holder.productName.text = product.name
+        holder.productPrice.text = product.price
 
-        // Set initial wishlist icon
-        holder.wishlistIcon.setImageResource(
-            if (item.isWishlisted) R.drawable.wish_filled else R.drawable.wish_black
-        )
+        // Item click to view details
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ProductDetailActivity::class.java)
+            intent.putExtra("productName", product.name)
+            intent.putExtra("productPrice", product.price)
+            intent.putExtra("productImage", product.imageResource)
+            context.startActivity(intent)
+        }
 
-        // Handle Wishlist Toggle
-        holder.wishlistIcon.setOnClickListener {
-            val newState = !item.isWishlisted
-            item.isWishlisted = newState
-            holder.wishlistIcon.setImageResource(if (newState) R.drawable.wish_filled else R.drawable.wish_black)
-            onWishlistToggle(item, newState)
+        // Add to cart button
+        holder.addToCartBtn.setOnClickListener {
+            CartManager.addToCart(product)
+            // Optional: show toast or other feedback
+        }
+
+        // Remove from wishlist button
+        holder.removeFromWishlist.setOnClickListener {
+            WishlistManager.removeFromWishlist(product)
+            // Update the list
+            updateWishlistItems(WishlistManager.getWishlistItems().toMutableList())
         }
     }
 
-    // Function to add a new item to the wishlist
-    fun addItem(item: WishlistItem) {
-        wishlistItems.add(item)
-        notifyItemInserted(wishlistItems.size - 1)
+    fun updateWishlistItems(newWishlistItems: MutableList<Product>) {
+        this.wishlistItems = newWishlistItems
+        notifyDataSetChanged()
     }
 }
