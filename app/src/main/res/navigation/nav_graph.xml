@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homePageFragment">
+
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.example.spectackle.ui.fragment.HomePageFragment"
+        android:label="HomePageFragment">
+        <action
+            android:id="@+id/action_homePageFragment_to_wishlistFragment"
+            app:destination="@id/wishlistFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/wishlistFragment"
+        android:name="com.example.spectackle.ui.fragment.WishlistFragment"
+        android:label="WishlistFragment" />
+</navigation>

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.spectackle.databinding.FragmentProfileBinding
 import com.example.spectackle.repository.UserRepositoryImpl
@@ -41,6 +42,11 @@ class ProfileFragment : Fragment() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
+
+        // 🔥 Handle Delete User Click
+        binding.deleteUserCard.setOnClickListener {
+            deleteUser()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -56,9 +62,35 @@ class ProfileFragment : Fragment() {
                     binding.profileUserName.text = "Error"
                     binding.profileUserEmail.text = result.message
                 }
-                else -> {
+                is Resource.Loading -> {
                     binding.profileUserName.text = "Loading..."
                     binding.profileUserEmail.text = "Fetching profile..."
+                }
+                else -> {
+                    binding.profileUserName.text = "Unknown state"
+                    binding.profileUserEmail.text = "Please try again"
+                }
+            }
+        }
+    }
+
+    // 🔥 Function to delete user
+    private fun deleteUser() {
+        userRepository.deleteUser { result ->
+            when (result) {
+                is Resource.Success -> {
+                    Toast.makeText(requireContext(), "User deleted successfully!", Toast.LENGTH_LONG).show()
+
+                    // Redirect to Login Screen
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+                is Resource.Error -> {
+                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
+                }
+                else -> {
+                    Toast.makeText(requireContext(), "Unexpected error occurred.", Toast.LENGTH_LONG).show()
                 }
             }
         }

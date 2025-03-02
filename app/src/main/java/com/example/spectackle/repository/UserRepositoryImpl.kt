@@ -33,11 +33,28 @@ class UserRepositoryImpl(private val firebaseAuth: FirebaseAuth) : UserRepositor
             }
     }
 
-    // New method to get current user details
     override fun getUserProfile(callback: (Resource<UserModel>) -> Unit) {
         val user = firebaseAuth.currentUser
         if (user != null) {
             callback(Resource.Success(UserModel(user.uid, user.email ?: "No Email Found")))
+        } else {
+            callback(Resource.Error("User not logged in"))
+        }
+    }
+
+    // 🔥 Implement Delete User Functionality
+    override fun deleteUser(callback: (Resource<Unit>) -> Unit) {
+        val user = firebaseAuth.currentUser
+
+        if (user != null) {
+            user.delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        callback(Resource.Success(Unit)) // Deletion successful
+                    } else {
+                        callback(Resource.Error(task.exception?.message ?: "Failed to delete user"))
+                    }
+                }
         } else {
             callback(Resource.Error("User not logged in"))
         }

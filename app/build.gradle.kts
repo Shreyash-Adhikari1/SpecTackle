@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    id ("kotlin-parcelize")
 
 }
     android {
@@ -32,11 +33,11 @@ plugins {
             }
         }
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "17"
         }
     }
 
@@ -55,6 +56,8 @@ plugins {
         implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
         implementation ("com.github.bumptech.glide:glide:4.15.1")
+        implementation ("androidx.navigation:navigation-fragment-ktx:2.8.7")  // Or the latest version
+        implementation ("androidx.navigation:navigation-ui-ktx:2.8.7")
 
 
     }

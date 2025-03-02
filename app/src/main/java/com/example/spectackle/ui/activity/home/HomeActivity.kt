@@ -17,7 +17,7 @@ import com.example.spectackle.ui.fragment.CategoryFragment
 import com.example.spectackle.ui.fragment.HomeFragment
 import com.example.spectackle.ui.fragment.ProfileFragment
 import com.example.spectackle.ui.fragment.SearchFragment
-import com.example.spectackle.ui.fragment.WishlistFragment
+//import com.example.spectackle.ui.fragment.WishlistFragment
 import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity() {
@@ -47,7 +47,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.nav_home -> replaceFragment(HomeFragment())
                 R.id.nav_category -> replaceFragment(CategoryFragment())
                 R.id.nav_about_us -> {
-                // Just In-Cse we decide to make an about us section
+                    // Just In-Cse we decide to make an about us section
                 }
             }
             drawerLayout.closeDrawers()
@@ -59,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navHome -> replaceFragment(HomeFragment())
                 R.id.navCategory -> replaceFragment(CategoryFragment())
                 R.id.navCart -> replaceFragment(CartFragment())
-                R.id.navWishlist -> replaceFragment(WishlistFragment())
+//                R.id.navWishlist -> replaceFragment(WishlistFragment())
 
                 else -> {}
             }

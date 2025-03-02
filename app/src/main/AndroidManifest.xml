@@ -24,6 +24,10 @@
             android:name=".ui.activity.signup.SignupActivity"
             android:exported="false" />
         <activity
+            android:name="com.example.spectackle.ui.activity.ProductDetailActivity"
+            android:exported="false" />
+            />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
