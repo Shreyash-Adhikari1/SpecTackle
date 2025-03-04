@@ -8,10 +8,20 @@
     <item
         android:id="@+id/nav_category"
         android:icon="@drawable/category"
-        android:title="Category" />
+        android:title=" Go To Category" />
 
     <item
-        android:id="@+id/nav_about_us"
-        android:icon="@drawable/about"
-        android:title="About Us" />
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/baseline_shopping_cart_24"
+        android:title="View Cart" />
+
+    <item
+        android:id="@+id/nav_wishlist"
+        android:icon="@drawable/wishlist"
+        android:title="View Wishlist" />
+
+    <item
+        android:id="@+id/nav_addProduct"
+        android:icon="@drawable/baseline_add_24"
+        android:title="Add Product" />
 </menu>

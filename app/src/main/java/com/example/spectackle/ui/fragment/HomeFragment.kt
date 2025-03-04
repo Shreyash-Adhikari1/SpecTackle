@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +67,37 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 //        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),0)
 
+        //Open Sunglass Fragment From Home
+        binding.homeSunglass.setOnClickListener {
+            replaceFragment(SunglassesFragment())
+        }
+        binding.homeSunglassText.setOnClickListener {
+            replaceFragment(SunglassesFragment())
+        }
 
+        //Open Eyewear Fragment From Home
+        binding.homeEyewear.setOnClickListener {
+            replaceFragment(SunglassesFragment())
+        }
+        binding.homeEyewearText.setOnClickListener {
+            replaceFragment(EyewearFragment())
+        }
+
+        //Open Lens Fragment From Home
+        binding.homeLens.setOnClickListener {
+            replaceFragment(SunglassesFragment())
+        }
+        binding.homeLensText.setOnClickListener {
+            replaceFragment(LensFragment())
+        }
+
+
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.commit {
+            replace(R.id.mainFrame,fragment)
+            addToBackStack(null)
+        }
     }
 }

@@ -82,7 +82,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/homeSunglass"
                     android:layout_width="180dp"
                     android:layout_height="90dp"
                     android:layout_marginStart="8dp"
@@ -92,54 +92,54 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/homeEyewear"
                     android:layout_width="180dp"
                     android:layout_height="90dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/eyewear"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/homeSunglass" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/homeLens"
                     android:layout_width="180dp"
                     android:layout_height="80dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
                     android:src="@drawable/lens"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+                    app:layout_constraintTop_toBottomOf="@+id/homeEyewear" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/homeSunglassText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="44dp"
                     android:layout_marginTop="108dp"
                     android:text="Sunglasses"
-                    app:layout_constraintStart_toEndOf="@+id/imageView6"
+                    app:layout_constraintStart_toEndOf="@+id/homeSunglass"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/homeEyewearText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="44dp"
                     android:layout_marginTop="88dp"
                     android:text="Eyewear"
-                    app:layout_constraintStart_toEndOf="@+id/imageView7"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintStart_toEndOf="@+id/homeEyewear"
+                    app:layout_constraintTop_toBottomOf="@+id/homeSunglassText" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/homeLensText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="44dp"
                     android:layout_marginTop="88dp"
                     android:text="Lens"
-                    app:layout_constraintStart_toEndOf="@+id/imageView8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                    app:layout_constraintStart_toEndOf="@+id/homeLens"
+                    app:layout_constraintTop_toBottomOf="@+id/homeEyewearText" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
