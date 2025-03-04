@@ -1,66 +1,116 @@
 package com.example.spectackle.ui.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Button
+import android.widget.Toast
 import com.example.spectackle.databinding.FragmentProfileBinding
-import com.example.spectackle.repository.UserRepositoryImpl
 import com.example.spectackle.ui.activity.loginui.LoginActivity
-import com.example.spectackle.utils.FirebaseHelper
-import com.example.spectackle.utils.Resource
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
-    private val userRepository = UserRepositoryImpl(FirebaseAuth.getInstance())
+
+    lateinit var binding: FragmentProfileBinding
+    lateinit var database: DatabaseReference
+    lateinit var auth: FirebaseAuth
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+    ): View? {
+        binding = FragmentProfileBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Fetch user profile data and update UI
-        loadUserProfile()
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().getReference("users")
 
-        // 🔥 Logout button click listener
-        binding.textView22.setOnClickListener {
-            FirebaseHelper.logout() // Call the logout function
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            fetchUserData(currentUser.uid)
+            // Disabling the button if the user is logged in
+            binding.logBtn.isClickable = false
+            binding.logBtn.isFocusable = false
+            binding.logBtn.visibility = View.GONE
 
-            // Navigate back to LoginActivity
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            binding.logoutBtn.visibility = View.VISIBLE
+            binding.logoutBar.visibility = View.VISIBLE
+            binding.logoutBtn.setOnClickListener {
+                signOutUser()
+            }
+
+        } else{
+            binding.logBtn.visibility = View.VISIBLE
+            binding.logBtn.setOnClickListener {
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+            binding.logoutBtn.visibility = View.GONE
+            binding.logoutBar.visibility = View.GONE
         }
+
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun loadUserProfile() {
-        userRepository.getUserProfile { result ->
-            when (result) {
-                is Resource.Success -> {
-                    val user = result.data
-                    binding.profileUserName.text = "UID: ${user?.uid ?: "N/A"}"
-                    binding.profileUserEmail.text = "Email: ${user?.email ?: "N/A"}"
-                }
-                is Resource.Error -> {
-                    binding.profileUserName.text = "Error"
-                    binding.profileUserEmail.text = result.message
-                }
-                else -> {
-                    binding.profileUserName.text = "Loading..."
-                    binding.profileUserEmail.text = "Fetching profile..."
-                }
-            }
+    private fun signOutUser() {
+        auth.signOut()
+
+        Toast.makeText(requireContext(), "Successfully signed out", Toast.LENGTH_SHORT).show()
+
+        // Hiding log out button
+        binding.logoutBtn.visibility = View.GONE
+        binding.logoutBar.visibility = View.GONE
+
+        // Showing prev info
+        binding.userName.text = "Signup for Info"
+        binding.userEmail.text = "Spectackle User"
+        binding.bottomTextView.visibility = View.VISIBLE
+
+        binding.userName.visibility = View.VISIBLE
+        binding.userEmail.visibility = View.VISIBLE
+        binding.bottomTextView.visibility = View.VISIBLE
+
+        // Enabling the button if the user is logged out
+        binding.logBtn.isClickable = true
+        binding.logBtn.isFocusable = true
+        binding.logBtn.visibility = View.VISIBLE
+
+        // Login button function
+        binding.logBtn.setOnClickListener {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
         }
+
+    }
+
+    private fun fetchUserData(uid: String) {
+        database.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val name = snapshot.child("name").value?.toString() ?: "No Name"
+                val email = snapshot.child("email").value?.toString() ?: "No Email"
+
+                binding.userName.text = name
+                binding.userEmail.text = email
+
+                binding.bottomTextView.visibility = View.GONE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors if needed
+            }
+        })
     }
 }

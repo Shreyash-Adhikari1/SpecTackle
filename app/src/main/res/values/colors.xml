@@ -5,5 +5,9 @@
     <color name="bgBlue">#e9eff6</color>
     <color name="green">#4C7272</color>
     <color name="fieldWhite">#DFEAEA</color>
+    <color name="grey">#DBDADA</color>
+    <color name="bgrey">#E2DDDD</color>
+    <color name="tgrey">#878383</color>
+    <color name="red">#D01111</color>
 
 </resources>

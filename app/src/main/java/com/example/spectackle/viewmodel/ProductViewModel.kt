@@ -5,9 +5,18 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.spectackle.model.ProductModel
-import com.example.spectackle.repository.ProductRepositoryImpl
+import com.example.spectackle.repository.ProductRepository
 
-class ProductViewModel(private val repo: ProductRepositoryImpl) : ViewModel() {
+
+class ProductViewModel(val repo: ProductRepository) : ViewModel() {
+
+    val products = MutableLiveData<ProductModel?>()  // Allow nullable value to avoid crash
+    private val _allProducts = MutableLiveData<List<ProductModel>>().apply { value = emptyList() }
+    val allProducts: MutableLiveData<List<ProductModel>> get() = _allProducts
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: MutableLiveData<Boolean> get() = _loading
+
     fun addProduct(
         productModel: ProductModel,
         callback: (Boolean, String) -> Unit
@@ -30,40 +39,31 @@ class ProductViewModel(private val repo: ProductRepositoryImpl) : ViewModel() {
         repo.deleteProduct(productId, callback)
     }
 
-    var _products = MutableLiveData<ProductModel?>()
-    var products = MutableLiveData<ProductModel?>()
-        get() = _products
-
-    var _allProducts = MutableLiveData<List<ProductModel>?>()
-    var allProducts = MutableLiveData<List<ProductModel>?>()
-        get() = _allProducts
-
-
-    fun getProductById(productId: String){
-        repo.getProductById(productId){
-                products,success,message->
-            if(success){
-                _products.value = products
+    fun getProductById(productId: String) {
+        _loading.value = true
+        repo.getProductById(productId) { product, success, message ->
+            if (success) {
+                products.value = product
+            } else {
+                products.value = null // Ensure null safety
             }
+            _loading.value = false
         }
     }
-
-    var _loading = MutableLiveData<Boolean>()
-    var loading = MutableLiveData<Boolean>()
-        get() = _loading
 
     fun getAllProduct() {
         _loading.value = true
-        repo.getAllProduct{
-                products,success,message->
-            if(success){
-                _allProducts.value = products
-                _loading.value = false
+        repo.getAllProduct { productsList, success, message ->
+            _allProducts.value = if (success && productsList != null) {
+                productsList
+            } else {
+                emptyList() // Ensure non-nullable value
             }
+            _loading.value = false
         }
     }
 
-    fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit){
+    fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit) {
         repo.uploadImage(context, imageUri, callback)
     }
 }

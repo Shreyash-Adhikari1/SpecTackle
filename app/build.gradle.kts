@@ -57,6 +57,9 @@ plugins {
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
         implementation ("com.github.bumptech.glide:glide:4.15.1")
 
+        //This dependency is for replacing entire fragments off of components inside a fragment
+        implementation ("androidx.fragment:fragment-ktx:1.6.2")
+
         //This dependency is for cloudinary
         implementation("com.cloudinary:cloudinary-android:2.1.0")
 
