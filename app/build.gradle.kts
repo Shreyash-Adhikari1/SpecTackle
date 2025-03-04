@@ -52,9 +52,17 @@ plugins {
         testImplementation(libs.junit)
         androidTestImplementation(libs.androidx.junit)
         androidTestImplementation(libs.androidx.espresso.core)
+
         implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
         implementation ("com.github.bumptech.glide:glide:4.15.1")
 
+        //This dependency is for cloudinary
+        implementation("com.cloudinary:cloudinary-android:2.1.0")
+
+        //These Dependencies are for Glide {bring image from cloudinary to display in application}
+        //Not using Picasso because Glide is faster and more efficient
+        implementation ("com.github.bumptech.glide:glide:4.16.0")
+        annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 
     }

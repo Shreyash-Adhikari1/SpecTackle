@@ -10,10 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpecTackle"
+        tools:replace="android:fullBackupContent"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.profile.UserProfileActivity"
+            android:name=".ui.activity.admin.UpdateProductActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.activity.admin.AddProductActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.activity.home.HomeActivity"
             android:exported="true" />
@@ -22,7 +27,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.activity.signup.SignupActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

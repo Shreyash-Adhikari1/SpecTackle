@@ -2,10 +2,8 @@ package com.example.spectackle.ui.activity.signup
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,62 +11,83 @@ import com.example.spectackle.R
 import com.example.spectackle.databinding.ActivitySignupBinding
 import com.example.spectackle.model.UserModel
 import com.example.spectackle.repository.UserRepositoryImpl
-import com.example.spectackle.ui.activity.home.HomeActivity
-import com.example.spectackle.utils.FirebaseHelper
-import com.example.spectackle.utils.Resource
+import com.example.spectackle.ui.activity.loginui.LoginActivity
+import com.example.spectackle.utils.LoadingUtils
 import com.example.spectackle.viewmodel.UserViewModel
 
-class SignupActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySignupBinding
-    private val userViewModel: UserViewModel by viewModels {
-        UserViewModel.Factory(UserRepositoryImpl(FirebaseHelper.firebaseAuth))
-    }
+class SignupActivity : AppCompatActivity() {
+    lateinit var binding: ActivitySignupBinding
+    lateinit var userViewModel: UserViewModel
+    lateinit var loadingUtils: LoadingUtils
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        //yeha initialize garney
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Handle sign-up button click
-        binding.signUpBtn.setOnClickListener {
-            val email: String = binding.regEmail.text.toString()
-            val password: String = binding.regPassword.text.toString()
+        loadingUtils = LoadingUtils(this)
 
-            if (email.isEmpty()) {
-                binding.regEmail.error = "Email Can't be Empty"
-            } else if (password.isEmpty()) {
-                binding.regPassword.error = "Password Can't be Empty"
-            } else {
-                // Perform Firebase registration
-                userViewModel.register(email, password)
+
+        var repo = UserRepositoryImpl()
+        userViewModel = UserViewModel(repo)
+
+
+        binding.signUp.setOnClickListener {
+            val email = binding.registerEmail.text.toString().trim()
+            val password = binding.registerPassword.text.toString().trim()
+            val firstName = binding.registerFname.text.toString().trim()
+            val lastName = binding.registerLName.text.toString().trim()
+            val address = binding.registerAddress.text.toString().trim()
+            val phoneNumber = binding.registerContact.text.toString().trim()
+
+            if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() ||
+                lastName.isEmpty() || address.isEmpty() || phoneNumber.isEmpty()
+            ) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            loadingUtils.show()
+
+            userViewModel.signup(email, password) { success, message, userId ->
+                if (success) {
+                    val userModel =
+                        UserModel(userId, firstName, lastName, address, phoneNumber, email)
+                    userViewModel.addUserToDatabase(userId, userModel) { dbSuccess, dbMessage ->
+                        loadingUtils.dismiss()
+                        if (dbSuccess) {
+                            startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
+                            Toast.makeText(
+                                this@SignupActivity,
+                                "Signup Successful!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this@SignupActivity,
+                                "Database Error: $dbMessage",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                } else {
+                    loadingUtils.dismiss()
+                    Toast.makeText(
+                        this@SignupActivity,
+                        "Signup Failed: $message",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
-
-        // Observe registration status
-        userViewModel.registerStatus.observe(this) { resource ->
-            when (resource) {
-                is Resource.Success<UserModel> -> {
-                    binding.progressBar.visibility = View.GONE // Hide progress bar
-                    Toast.makeText(this@SignupActivity, "Registration successful", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this@SignupActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish() // Close the SignupActivity to prevent going back
-                }
-                is Resource.Error<UserModel> -> {
-                    binding.progressBar.visibility = View.GONE // Hide progress bar
-                    val errorMessage = resource.message ?: "An unknown error occurred"
-                    Toast.makeText(this@SignupActivity, errorMessage, Toast.LENGTH_LONG).show()
-                }
-                is Resource.Loading<UserModel> -> {
-                    binding.progressBar.visibility = View.VISIBLE // Show progress bar
-                }
-            }
-        }
-
-        // Handle window insets
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.homeLogo)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets

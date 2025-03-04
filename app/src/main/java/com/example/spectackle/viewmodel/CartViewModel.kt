@@ -1,72 +1,68 @@
 package com.example.spectackle.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.spectackle.model.CartModel
-import com.example.spectackle.repository.CartRepositoryImpl
-
-class CartViewModel(private  val repo : CartRepositoryImpl) :ViewModel(){
-
-    fun addToCart(
-        cartModel: CartModel,
-        callback: (Boolean, String) -> Unit
-    ) {
-        repo.addToCart(cartModel,callback)
-    }
-
-    fun updateCart(
-        cartProductId: String,
-        data: MutableMap<String, Any>,
-        callback: (Boolean, String) -> Unit
-    ) {
-        repo.updateCart(cartProductId, data, callback)
-    }
-
-    fun deleteFromCart(
-        cartProductId: String,
-        callback: (Boolean, String) -> Unit
-    ) {
-        repo.deleteFromCart(cartProductId, callback)
-    }
-
-    var _cartProducts = MutableLiveData<CartModel?>()
-    var cartProducts = MutableLiveData<CartModel?>()
-        get() = _cartProducts
-
-    var _allProducts = MutableLiveData<List<CartModel>?>()
-    var allProducts = MutableLiveData<List<CartModel>?>()
-        get() = _allProducts
+import com.example.spectackle.repository.CartRepository
 
 
-    fun getProductById(cartProductId: String){
-        repo.getProductById(cartProductId){
-                cartProducts,success,message->
-            if(success){
-                _cartProducts.value = cartProducts
-            }
-        }
-    }
+class CartViewModel(private val repo: CartRepository) : ViewModel() {
 
-    var _loading = MutableLiveData<Boolean>()
-    var loading = MutableLiveData<Boolean>()
-        get() = _loading
+    private val _cartItems = MutableLiveData<List<CartModel>?>()
+    val cartItems: LiveData<List<CartModel>?> get() = _cartItems
 
-    fun getAllProduct() {
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> get() = _errorMessage
+
+    fun addToCart(cartModel: CartModel) {
         _loading.value = true
-        repo.getAllProduct{
-                cartProducts,success,message->
-            if(success){
-                _allProducts.value = cartProducts
-                _loading.value = false
+        repo.addToCart(cartModel) { success, message ->
+            _loading.value = false
+            if (success) {
+                getCartItems(cartModel.userId)
+            } else {
+                _errorMessage.value = message
             }
         }
     }
 
-    fun clearCart(){
-        repo.clearCart { success, message ->
+    fun removeFromCart(cartId: String, userId: String) {
+        _loading.value = true
+        repo.removeFromCart(cartId) { success, message ->
+            _loading.value = false
             if (success) {
-                _allProducts.value = emptyList() // Clear the LiveData
+                getCartItems(userId)
+            } else {
+                _errorMessage.value = message
             }
         }
     }
+
+    fun updateCartItem(cartId: String, quantity: Int, userId: String) {
+        _loading.value = true
+        repo.updateCartItem(cartId, quantity) { success, message ->
+            _loading.value = false
+            if (success) {
+                getCartItems(userId)
+            } else {
+                _errorMessage.value = message
+            }
+        }
     }
+
+    fun getCartItems(userId: String) {
+        _loading.value = true
+        repo.getCartItems(userId) { cartItems, success, message ->
+            _loading.value = false
+            if (success) {
+                _cartItems.value = cartItems
+            } else {
+                _errorMessage.value = message
+            }
+        }
+    }
+}

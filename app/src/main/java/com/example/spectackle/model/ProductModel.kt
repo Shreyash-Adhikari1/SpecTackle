@@ -5,19 +5,23 @@ import android.os.Parcelable
 
 class
 ProductModel(
-    var productId : String = "",
-    var productName : String = "",
-    var productDesc : String = "",
-    var price : Int = 0,
-    //var imageUrl : String = "",
+    var productId: String = "",
+    var productName: String = "",
+    var productDesc: String = "",
+    var productCategory: String="",
+    var productPrice: Int=0,
+    var productImage: String="",
+    var imageUrl: String = "",
 
-):Parcelable  {
+    ):Parcelable  {
     constructor(parcel: Parcel) : this(
         parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readString()?:"",
+        parcel.readString()?:"",
         parcel.readInt()?:0,
-        //parcel.readString()?:""
+        parcel.readString()?:"",
+        parcel.readString()?:""
     ) {
     }
 
@@ -25,8 +29,10 @@ ProductModel(
         parcel.writeString(productId)
         parcel.writeString(productName)
         parcel.writeString(productDesc)
-        parcel.writeInt(price)
-        //parcel.writeString(imageUrl)
+        parcel.writeString(productCategory)
+        parcel.writeInt(productPrice)
+        parcel.writeString(productImage)
+        parcel.writeString(imageUrl)
     }
 
     override fun describeContents(): Int {
