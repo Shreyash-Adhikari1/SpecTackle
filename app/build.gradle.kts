@@ -55,6 +55,7 @@ plugins {
 
         implementation ("androidx.activity:activity-ktx:1.10.0") // For by viewModels
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // For ViewModel
+        implementation ("com.github.bumptech.glide:glide:4.15.1")
 
         //This dependency is for cloudinary
         implementation("com.cloudinary:cloudinary-android:2.1.0")
