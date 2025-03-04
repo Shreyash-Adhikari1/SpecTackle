@@ -6,38 +6,37 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.OpenableColumns
+import android.util.Log
 import com.cloudinary.Cloudinary
 import com.cloudinary.utils.ObjectUtils
 import com.example.spectackle.model.ProductModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import java.io.InputStream
 import java.util.concurrent.Executors
 
 class ProductRepositoryImpl : ProductRepository {
 
-    val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    val ref: DatabaseReference = database.reference.child("products")
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val ref: DatabaseReference = database.reference.child("products")
 
     override fun addProduct(
         productModel: ProductModel,
         callback: (Boolean, String) -> Unit
     ) {
-        var id = ref.push().key.toString()
+        val id = ref.push().key ?: return callback(false, "Failed to generate product ID")
         productModel.productId = id
 
-        ref.child(id).setValue(productModel).addOnCompleteListener {
-            if (it.isSuccessful) {
-                callback(true, "Product Added successfully")
-            } else {
-                callback(false, "${it.exception?.message}")
-
+        // Ensure correct database structure
+        ref.child(productModel.productCategory).child(id).setValue(productModel)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("FirebaseSuccess", "Product added: ${productModel.productName}")
+                    callback(true, "Product Added successfully")
+                } else {
+                    Log.e("FirebaseError", "Error adding product: ${task.exception?.message}")
+                    callback(false, task.exception?.message ?: "Unknown error")
+                }
             }
-        }
-
     }
 
     override fun updateProduct(
@@ -49,8 +48,7 @@ class ProductRepositoryImpl : ProductRepository {
             if (it.isSuccessful) {
                 callback(true, "Product Updated successfully")
             } else {
-                callback(false, "${it.exception?.message}")
-
+                callback(false, it.exception?.message ?: "Unknown error")
             }
         }
     }
@@ -60,8 +58,7 @@ class ProductRepositoryImpl : ProductRepository {
             if (it.isSuccessful) {
                 callback(true, "Product Deleted successfully")
             } else {
-                callback(false, "${it.exception?.message}")
-
+                callback(false, it.exception?.message ?: "Unknown error")
             }
         }
     }
@@ -70,11 +67,13 @@ class ProductRepositoryImpl : ProductRepository {
         productId: String,
         callback: (ProductModel?, Boolean, String) -> Unit
     ) {
-        ref.child(productId).addValueEventListener(object : ValueEventListener {
+        ref.child(productId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    var model = snapshot.getValue(ProductModel::class.java)
+                    val model = snapshot.getValue(ProductModel::class.java)
                     callback(model, true, "Product fetched successfully")
+                } else {
+                    callback(null, false, "Product not found")
                 }
             }
 
@@ -85,17 +84,19 @@ class ProductRepositoryImpl : ProductRepository {
     }
 
     override fun getAllProduct(callback: (List<ProductModel>?, Boolean, String) -> Unit) {
-        ref.addValueEventListener(object : ValueEventListener {
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var products = mutableListOf<ProductModel>()
+                val products = mutableListOf<ProductModel>()
                 if (snapshot.exists()) {
                     for (eachProduct in snapshot.children) {
-                        var data = eachProduct.getValue(ProductModel::class.java)
+                        val data = eachProduct.getValue(ProductModel::class.java)
                         if (data != null) {
                             products.add(data)
                         }
                     }
-                    callback(products, true, "product added successfully")
+                    callback(products, true, "Products fetched successfully")
+                } else {
+                    callback(emptyList(), false, "No products found")
                 }
             }
 
@@ -109,7 +110,7 @@ class ProductRepositoryImpl : ProductRepository {
         category: String,
         callback: (List<ProductModel>?, Boolean, String) -> Unit
     ) {
-        ref.orderByChild("productCategory").equalTo(category)
+        ref.child(category)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val products = mutableListOf<ProductModel>()
@@ -122,7 +123,7 @@ class ProductRepositoryImpl : ProductRepository {
                         }
                         callback(products, true, "Products fetched successfully")
                     } else {
-                        callback(null, false, "No products found")
+                        callback(emptyList(), false, "No products found")
                     }
                 }
 
@@ -132,7 +133,6 @@ class ProductRepositoryImpl : ProductRepository {
             })
     }
 
-
     private val cloudinary = Cloudinary(
         mapOf(
             "cloud_name" to "dccum3yur",
@@ -140,6 +140,7 @@ class ProductRepositoryImpl : ProductRepository {
             "api_secret" to "vlAa3_qbiszuCDGwTomGaXb9GHI"
         )
     )
+
     override fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit) {
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
@@ -149,19 +150,18 @@ class ProductRepositoryImpl : ProductRepository {
 
                 fileName = fileName?.substringBeforeLast(".") ?: "uploaded_image"
 
+                // Ensure unique filename to prevent overwriting
+                val uniqueFileName = "${System.currentTimeMillis()}_$fileName"
+
                 val response = cloudinary.uploader().upload(
                     inputStream, ObjectUtils.asMap(
                         "folder", "spectackle_products",
-                        "public_id", "products/$fileName",
+                        "public_id", "products/$uniqueFileName",
                         "resource_type", "image"
                     )
                 )
 
-
-
-                var imageUrl = response["url"] as String?
-
-                imageUrl = imageUrl?.replace("http://", "https://")
+                var imageUrl = response["secure_url"] as String?
 
                 Handler(Looper.getMainLooper()).post {
                     callback(imageUrl)
@@ -189,5 +189,4 @@ class ProductRepositoryImpl : ProductRepository {
         }
         return fileName
     }
-
 }

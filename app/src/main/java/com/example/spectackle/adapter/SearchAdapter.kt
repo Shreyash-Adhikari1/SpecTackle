@@ -1,40 +1,42 @@
-package com.example.spectackle.ui.fragment
+package  com.example.spectackle.adapter
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.spectackle.R
+import android.content.Context
+import android.widget.ArrayAdapter
+import android.widget.Filter
+import android.widget.Filterable
 
-class SearchAdapter(private var items: List<SearchItem>) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(
+    context: Context,
+    private val resource: Int,
+    private val items: MutableList<String>
+) : ArrayAdapter<String>(context, resource, items), Filterable {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val itemImage: ImageView = itemView.findViewById(R.id.itemImage)
-        val textView: TextView = itemView.findViewById(R.id.textView)
-    }
+    private val originalItems = ArrayList(items)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
-        return ViewHolder(view)
-    }
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val results = FilterResults()
+                if (constraint.isNullOrEmpty()) {
+                    results.values = originalItems
+                    results.count = originalItems.size
+                } else {
+                    val filteredList = originalItems.filter {
+                        it.contains(constraint.toString(), ignoreCase = true)
+                    }
+                    results.values = ArrayList(filteredList) // Ensure it's mutable
+                    results.count = filteredList.size
+                }
+                return results
+            }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.textView.text = item.name
-
-        // Using Glide to load image into the ImageView
-        Glide.with(holder.itemView.context)
-            .load(item.imageResId)
-            .into(holder.itemImage)
-    }
-
-    override fun getItemCount(): Int = items.size
-
-    fun updateList(newList: List<SearchItem>) {
-        items = newList
-        notifyDataSetChanged()
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                if (results?.values is List<*>) {
+                    items.clear()
+                    items.addAll(results.values as List<String>)
+                    notifyDataSetChanged()
+                }
+            }
+        }
     }
 }

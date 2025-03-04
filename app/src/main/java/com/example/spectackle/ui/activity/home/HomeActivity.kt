@@ -10,11 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.spectackle.R
+import com.example.spectackle.adapter.SearchFragment
 import com.example.spectackle.databinding.ActivityHomeBinding
 import com.example.spectackle.ui.activity.admin.AddProductActivity
 import com.example.spectackle.ui.fragment.CartFragment
 import com.example.spectackle.ui.fragment.CategoryFragment
 import com.example.spectackle.ui.fragment.HomeFragment
+import com.example.spectackle.ui.fragment.ProfileFragment
 import com.example.spectackle.ui.fragment.WishlistFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -47,7 +49,7 @@ class HomeActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_addProduct->{
-                    if (email=="spectackleadmin001@admin.com"){
+                    if (email=="specsadmin@gmail.com"){
                         val intent=Intent(this@HomeActivity, AddProductActivity::class.java)
                         startActivity(intent)
                     }else{
@@ -73,6 +75,14 @@ class HomeActivity : AppCompatActivity() {
                 else -> {}
             }
             true
+        }
+
+        binding.homeProfile.setOnClickListener {
+            replaceFragment(ProfileFragment())
+        }
+
+        binding.searchIcon.setOnClickListener {
+            replaceFragment(SearchFragment())
         }
 
         // Default Fragment
