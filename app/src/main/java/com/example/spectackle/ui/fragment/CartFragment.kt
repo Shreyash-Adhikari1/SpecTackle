@@ -66,8 +66,6 @@ class CartFragment : Fragment() {
         }
     }
 
-
-
     private fun fetchCartItems() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val cartRef = FirebaseDatabase.getInstance().getReference("Cart").child(userId)

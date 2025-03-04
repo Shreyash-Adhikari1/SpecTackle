@@ -1,6 +1,5 @@
 package com.example.spectackle.model
 
-import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
 
@@ -8,22 +7,20 @@ class CartModel(
     var cartId: String = "",
     var userId: String = "",
     var productId: String = "",
-    var productName: String="",
-    var productImage: String="",
+    var productName: String = "",
+    var productImage: String = "",
     var quantity: Int = 1,
     var price: Int = 0,
-):Parcelable{
+) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString()?:"",
-        parcel.readString()?:"",
-        parcel.readString()?:"",
-        parcel.readString()?:"",
-        parcel.readString()?:"",
-        parcel.readInt()?:0,
-        parcel.readInt()?:0,
-
-        ) {
-    }
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readInt(),
+        parcel.readInt()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cartId)
@@ -33,7 +30,6 @@ class CartModel(
         parcel.writeString(productImage)
         parcel.writeInt(quantity)
         parcel.writeInt(price)
-
     }
 
     override fun describeContents(): Int {
@@ -49,5 +45,4 @@ class CartModel(
             return arrayOfNulls(size)
         }
     }
-
 }
