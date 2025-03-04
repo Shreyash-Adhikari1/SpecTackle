@@ -53,7 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/emailField"
+        android:id="@+id/editEmail"
         android:layout_width="315dp"
         android:layout_height="42dp"
         android:layout_marginStart="52dp"
@@ -72,10 +72,10 @@
         android:layout_marginTop="20dp"
         android:text="Password"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailField" />
+        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
 
     <EditText
-        android:id="@+id/passwordField"
+        android:id="@+id/editPassword"
         android:layout_width="314dp"
         android:layout_height="43dp"
         android:layout_marginStart="51dp"
@@ -94,10 +94,10 @@
         android:layout_marginEnd="32dp"
         android:text="Forgot Password ?"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordField" />
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnLogin"
         android:layout_width="172dp"
         android:layout_height="43dp"
         android:layout_marginStart="116dp"
@@ -106,7 +106,7 @@
         android:backgroundTint="@color/green"
         android:text="Sign In"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordField" />
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
 
     <TextView
         android:id="@+id/textView7"
@@ -116,10 +116,10 @@
         android:layout_marginTop="20dp"
         android:text="Don't have an account?"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
-        android:id="@+id/signUpText"
+        android:id="@+id/btnSignupNavigate"
         android:layout_width="67dp"
         android:layout_height="20dp"
         android:layout_marginTop="100dp"
@@ -137,20 +137,4 @@
         android:layout_gravity="center_horizontal" />
 
 
-    <CheckBox
-        android:id="@+id/rememberMe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Remember Me"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordField" />
-
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="194dp"
-        tools:layout_editor_absoluteY="222dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

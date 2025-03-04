@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="410dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+
+        android:layout_marginStart="3dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="12dp">
 
             <ImageView
-                android:id="@+id/imageView12"
-                android:layout_width="78dp"
-                android:layout_height="65dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="6dp"
+                android:id="@+id/wishlistProductImage"
+                android:layout_width="134dp"
+                android:layout_height="139dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:src="@drawable/placeholder" />
 
             <TextView
-                android:id="@+id/textView18"
-                android:layout_width="wrap_content"
+                android:id="@+id/wishlistProductName"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="16dp"
-                android:text="Product Name"
-                app:layout_constraintStart_toEndOf="@+id/imageView12"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="4dp"
-                android:text="Product Price"
-                android:textSize="10sp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageView12"
-                app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                app:layout_constraintStart_toEndOf="@id/wishlistProductImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Product Name" />
 
             <ImageView
-                android:id="@+id/imageView13"
-                android:layout_width="36dp"
+                android:id="@+id/removeFromWishlist"
+                android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="19dp"
-                android:layout_marginEnd="6dp"
+                android:layout_marginTop="52dp"
+                android:layout_marginEnd="56dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/wish_black" />
+                app:layout_constraintTop_toBottomOf="@+id/wishlistProductName"
+                app:srcCompat="@drawable/trashbin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

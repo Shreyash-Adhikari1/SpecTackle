@@ -1,16 +1,17 @@
 package com.example.spectackle.model
 
+import android.media.Image
 import android.os.Parcel
 import android.os.Parcelable
 
-class CartModel (
-    var cartProductId : String = "",
-    var userId: String="",
-    var productId: String="",
-    var cartProductName : String = "",
-    var cartProductDesc : String = "",
-    var cartProductPrice : Int = 0,
-    var cartImageUrl : String = "",
+class CartModel(
+    var cartId: String = "",
+    var userId: String = "",
+    var productId: String = "",
+    var productName: String="",
+    var productImage: String="",
+    var quantity: Int = 1,
+    var price: Int = 0,
 ):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readString()?:"",
@@ -19,18 +20,20 @@ class CartModel (
         parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readInt()?:0,
-        parcel.readString()?:""
-    ) {
+        parcel.readInt()?:0,
+
+        ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(cartProductId)
+        parcel.writeString(cartId)
         parcel.writeString(userId)
         parcel.writeString(productId)
-        parcel.writeString(cartProductName)
-        parcel.writeString(cartProductDesc)
-        parcel.writeInt(cartProductPrice)
-        parcel.writeString(cartImageUrl)
+        parcel.writeString(productName)
+        parcel.writeString(productImage)
+        parcel.writeInt(quantity)
+        parcel.writeInt(price)
+
     }
 
     override fun describeContents(): Int {
@@ -46,4 +49,5 @@ class CartModel (
             return arrayOfNulls(size)
         }
     }
+
 }

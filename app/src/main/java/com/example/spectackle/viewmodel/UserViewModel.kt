@@ -1,44 +1,35 @@
 package com.example.spectackle.viewmodel
-
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.spectackle.model.UserModel
 import com.example.spectackle.repository.UserRepository
-import com.example.spectackle.utils.Resource
 
-class UserViewModel(private val userRepository: UserRepository) : ViewModel() {
+import com.google.firebase.auth.FirebaseUser
 
-    // For registration
-    private val _registerStatus = MutableLiveData<Resource<UserModel>>()
-    val registerStatus: LiveData<Resource<UserModel>> get() = _registerStatus
+//pass the repository that is to be mediated in the repository
+class UserViewModel(val repo: UserRepository):ViewModel() {
 
-    // For login
-    private val _loginStatus = MutableLiveData<Resource<Unit>>()
-    val loginStatus: LiveData<Resource<Unit>> get() = _loginStatus
-
-    // Register function
-    fun register(email: String, password: String) {
-        _registerStatus.value = Resource.Loading()
-        userRepository.register(email, password) { result ->
-            _registerStatus.postValue(result)
-        }
+    fun login(email:String, password:String,
+              callback: (Boolean,String)->Unit){
+        repo.login(email,password,callback)
     }
 
-    // Login function
-    fun login(email: String, password: String) {
-        _loginStatus.value = Resource.Loading()
-        userRepository.login(email, password) { result ->
-            _loginStatus.postValue(result)
-        }
+    fun signup(email:String, password:String,
+               callback: (Boolean,String,String)->Unit){
+        repo.signup(email,password,callback)
     }
 
-    // Factory for UserViewModel
-    class Factory(private val userRepository: UserRepository) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return UserViewModel(userRepository) as T
-        }
+    fun addUserToDatabase(userId: String, userModel: UserModel,
+                          callback: (Boolean, String) -> Unit){
+        repo.addUserToDatabase(userId,userModel,callback)
     }
+
+    fun forgetPassword(email: String,
+                       callback: (Boolean, String) -> Unit){
+        repo.forgetPassword(email,callback)
+    }
+
+    fun getCurrentUser(): FirebaseUser?{
+        return repo.getCurrentUser()
+    }
+
 }
