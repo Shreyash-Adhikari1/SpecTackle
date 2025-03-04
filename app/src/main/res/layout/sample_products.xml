@@ -81,20 +81,20 @@
 
             <ImageView
                 android:id="@+id/addToWishlist"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="88dp"
+                android:layout_width="20dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_star_rate_24" />
+                app:srcCompat="@drawable/wishlist" />
 
             <ImageView
                 android:id="@+id/addToCart"
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="35dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintStart_toEndOf="@+id/displayProductImage"
                 app:layout_constraintTop_toBottomOf="@+id/displayProductPrice"
                 app:srcCompat="@drawable/baseline_shopping_cart_24" />
