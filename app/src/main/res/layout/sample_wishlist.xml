@@ -48,13 +48,13 @@
 
             <ImageView
                 android:id="@+id/removeFromWishlist"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="52dp"
-                android:layout_marginEnd="56dp"
+                android:layout_width="21dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wishlistProductName"
-                app:srcCompat="@drawable/trashbin" />
+                app:srcCompat="@drawable/love" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
