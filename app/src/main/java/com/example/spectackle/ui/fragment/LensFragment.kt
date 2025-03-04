@@ -1,60 +1,147 @@
 package com.example.spectackle.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.spectackle.R
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.spectackle.adapter.ProductAdapter
+import com.example.spectackle.databinding.FragmentLensBinding
+import com.example.spectackle.model.CartModel
+import com.example.spectackle.model.ProductModel
+import com.example.spectackle.model.WishlistModel
+import com.example.spectackle.repository.CartRepository
+import com.example.spectackle.repository.CartRepositoryImpl
+import com.example.spectackle.repository.ProductRepository
+import com.example.spectackle.repository.ProductRepositoryImpl
+import com.example.spectackle.repository.WishlistRepository
+import com.example.spectackle.repository.WishlistRepositoryImpl
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [LensFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LensFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding: FragmentLensBinding
+    lateinit var productAdapter: ProductAdapter
+    lateinit var cartRepository: CartRepository
+    lateinit var productRepository: ProductRepository
+    lateinit var wishlistRepository: WishlistRepository
+    var productList = ArrayList<ProductModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lens, container, false)
+    ): View {
+        binding = FragmentLensBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LensFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LensFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        productRepository = ProductRepositoryImpl()
+        cartRepository = CartRepositoryImpl()
+        wishlistRepository= WishlistRepositoryImpl()
+
+        productAdapter =
+            ProductAdapter(requireContext(), productList, { product -> addToCart(product) }, { product -> addToWishlist(product) })
+
+
+        binding.lensRecycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = productAdapter
+        }
+
+        // Fetch Lenses
+        fetchLens()
+    }
+
+    private fun fetchLens() {
+        productRepository.getProductByCategory("Lens") { products, success, message ->
+            if (success && products != null) {
+                productList.clear()
+                productList.addAll(products)
+                productAdapter.notifyDataSetChanged()
             }
+        }
+    }
+
+    private fun addToCart(product: ProductModel) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val cartRef = FirebaseDatabase.getInstance().getReference("Cart").child(userId ?: return)
+
+        product.productId?.let { productId ->  // Ensure productId is non-null
+            cartRef.child(productId).get().addOnSuccessListener { snapshot ->
+                if (snapshot.exists()) {
+                    val existingCartItem = snapshot.getValue(CartModel::class.java)
+                    val updatedQuantity = (existingCartItem?.quantity ?: 0) + 1
+                    cartRef.child(productId).child("quantity").setValue(updatedQuantity)
+                } else {
+                    val newCartItem = CartModel(
+                        cartId = System.currentTimeMillis().toString(),
+                        productId = productId,
+                        productName = product.productName ?: "Unknown",
+                        productImage = product.productImage ?: "",
+                        price = product.productPrice ?: 0,
+                        quantity = 1
+                    )
+                    cartRef.child(productId).setValue(newCartItem)
+                }
+                Toast.makeText(requireContext(), "Added to cart", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to add to cart", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun addToWishlist(product: ProductModel) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        if (userId == null) {
+            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val wishlistRef = FirebaseDatabase.getInstance().getReference("Wishlist").child(userId)
+
+        product.productId?.let { productId ->
+            wishlistRef.child(productId).get()
+                .addOnSuccessListener { snapshot ->
+                    if (snapshot.exists()) {
+                        Toast.makeText(requireContext(), "Already in Wishlist", Toast.LENGTH_SHORT).show()
+                        println("DEBUG: Item already exists in Wishlist")
+                    } else {
+                        val wishlistId = System.currentTimeMillis().toString()
+                        val newWishlistItem = WishlistModel(
+                            wishlistId = wishlistId,
+                            productId = productId,
+                            productName = product.productName ?: "Unknown",
+                            productImage = product.productImage ?: "",
+                        )
+
+                        wishlistRef.child(wishlistId).setValue(newWishlistItem)
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(), "Added to Wishlist", Toast.LENGTH_SHORT).show()
+                                println("DEBUG: Successfully added to Wishlist")
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(requireContext(), "Failed to add to Wishlist", Toast.LENGTH_SHORT).show()
+                                println("DEBUG: Error adding to Wishlist: ${e.message}")
+                            }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(requireContext(), "Failed to check Wishlist", Toast.LENGTH_SHORT).show()
+                    println("DEBUG: Error checking Wishlist: ${e.message}")
+                }
+        }
+    }
+
+
+    private fun getCurrentUserId(): String? {
+        val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("USER_ID", null)
     }
 }

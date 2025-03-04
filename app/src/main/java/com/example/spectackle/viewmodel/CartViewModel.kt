@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.example.spectackle.model.CartModel
 import com.example.spectackle.repository.CartRepository
 
-
 class CartViewModel(private val repo: CartRepository) : ViewModel() {
 
     private val _cartItems = MutableLiveData<List<CartModel>?>()

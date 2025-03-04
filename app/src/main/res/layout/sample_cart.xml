@@ -23,7 +23,7 @@
             android:padding="12dp">
 
             <ImageView
-                android:id="@+id/wishlistProductImage"
+                android:id="@+id/cartProductImage"
                 android:layout_width="134dp"
                 android:layout_height="139dp"
                 android:scaleType="centerCrop"
@@ -33,7 +33,7 @@
                 tools:src="@drawable/placeholder" />
 
             <TextView
-                android:id="@+id/wishlistProductName"
+                android:id="@+id/cartProductName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -42,7 +42,7 @@
                 android:maxLines="2"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/wishlistProductImage"
+                app:layout_constraintStart_toEndOf="@id/cartProductImage"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Product Name" />
 
@@ -54,8 +54,8 @@
                 android:layout_marginTop="12dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/wishlistProductImage"
-                app:layout_constraintTop_toBottomOf="@id/wishlistProductName"
+                app:layout_constraintStart_toEndOf="@+id/cartProductImage"
+                app:layout_constraintTop_toBottomOf="@id/cartProductName"
                 tools:text="Price" />
 
             <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toEndOf="@+id/wishlistProductImage"
+                app:layout_constraintStart_toEndOf="@+id/cartProductImage"
                 app:layout_constraintTop_toBottomOf="@+id/cartProductPrice">
 
                 <ImageView
@@ -93,13 +93,13 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/removeFromWishlist"
+                android:id="@+id/removeFromCart"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="52dp"
                 android:layout_marginEnd="56dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wishlistProductName"
+                app:layout_constraintTop_toBottomOf="@+id/cartProductName"
                 app:srcCompat="@drawable/trashbin" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

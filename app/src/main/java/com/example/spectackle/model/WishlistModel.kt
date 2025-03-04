@@ -3,45 +3,39 @@ package com.example.spectackle.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class CartModel(
-    var cartId: String = "",
+class WishlistModel(
+    var wishlistId: String = "",
     var userId: String = "",
     var productId: String = "",
     var productName: String = "",
-    var productImage: String = "",
-    var quantity: Int = 1,
-    var price: Int = 0,
+    var productImage: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readInt(),
-        parcel.readInt()
+        parcel.readString() ?: ""
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(cartId)
+        parcel.writeString(wishlistId)
         parcel.writeString(userId)
         parcel.writeString(productId)
         parcel.writeString(productName)
         parcel.writeString(productImage)
-        parcel.writeInt(quantity)
-        parcel.writeInt(price)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<CartModel> {
-        override fun createFromParcel(parcel: Parcel): CartModel {
-            return CartModel(parcel)
+    companion object CREATOR : Parcelable.Creator<WishlistModel> {
+        override fun createFromParcel(parcel: Parcel): WishlistModel {
+            return WishlistModel(parcel)
         }
 
-        override fun newArray(size: Int): Array<CartModel?> {
+        override fun newArray(size: Int): Array<WishlistModel?> {
             return arrayOfNulls(size)
         }
     }
