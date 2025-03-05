@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
 
         //Open Eyewear Fragment From Home
         binding.homeEyewear.setOnClickListener {
-            replaceFragment(SunglassesFragment())
+            replaceFragment(EyewearFragment())
         }
         binding.homeEyewearText.setOnClickListener {
             replaceFragment(EyewearFragment())
@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
 
         //Open Lens Fragment From Home
         binding.homeLens.setOnClickListener {
-            replaceFragment(SunglassesFragment())
+            replaceFragment(LensFragment())
         }
         binding.homeLensText.setOnClickListener {
             replaceFragment(LensFragment())

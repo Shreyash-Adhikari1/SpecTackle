@@ -1,16 +1,13 @@
 package com.example.spectackle.repository
 
+
 import com.example.spectackle.model.CartModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class CartRepositoryImpl : CartRepository {
 
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val ref: DatabaseReference = database.reference.child("carts")
+    val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    val ref: DatabaseReference = database.reference.child("carts")
 
     override fun addToCart(cartModel: CartModel, callback: (Boolean, String) -> Unit) {
         val cartId = ref.push().key ?: return callback(false, "Failed to generate cart ID")
