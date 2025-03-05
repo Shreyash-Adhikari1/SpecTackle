@@ -85,7 +85,7 @@ class EyewearFragment : Fragment() {
                         productId = productId,
                         productName = product.productName ?: "Unknown",
                         productImage = product.productImage ?: "",
-                        price = product.productPrice ?: 0,
+                        productPrice = product.productPrice ?: 0,
                         quantity = 1
                     )
                     cartRef.child(productId).setValue(newCartItem)

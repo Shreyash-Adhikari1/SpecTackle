@@ -2,6 +2,7 @@ package com.example.spectackle.repository
 
 import com.example.spectackle.model.CartModel
 
+
 interface CartRepository {
 
     fun addToCart(cartModel: CartModel, callback: (Boolean, String) -> Unit)
