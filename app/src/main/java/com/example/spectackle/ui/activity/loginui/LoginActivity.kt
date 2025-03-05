@@ -2,6 +2,7 @@ package com.example.spectackle.ui.activity.loginui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnSignupNavigate.setOnClickListener({
             val intent= Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
+
         })
 
         binding.btnLogin.setOnClickListener {
@@ -46,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
             userViewModel.login(email,password){
                     success,message->
+
                 if(success){
                     loadingUtils.dismiss()
                     Toast.makeText(this@LoginActivity,message, Toast.LENGTH_LONG).show()
