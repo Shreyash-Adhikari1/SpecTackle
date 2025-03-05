@@ -9,7 +9,8 @@ import com.example.spectackle.repository.WishlistRepository
 class WishlistViewModel(private val repo: WishlistRepository) : ViewModel() {
 
     private val _wishlistItems = MutableLiveData<List<WishlistModel>?>()
-    val wishlistItems: LiveData<List<WishlistModel>?> get() = _wishlistItems
+    val wishlistItems: LiveData<List<WishlistModel>?>
+        get() = _wishlistItems
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading

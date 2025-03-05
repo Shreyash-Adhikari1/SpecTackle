@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener
 class WishlistRepositoryImpl : WishlistRepository {
 
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val ref: DatabaseReference = database.reference.child("wishlist")
+    private val ref: DatabaseReference = database.reference.child("Wishlist")
 
     override fun addToWishlist(wishlistModel: WishlistModel, callback: (Boolean, String) -> Unit) {
         val wishlistId = ref.push().key

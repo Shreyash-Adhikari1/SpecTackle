@@ -99,7 +99,7 @@ class ProfileFragment : Fragment() {
     private fun fetchUserData(uid: String) {
         database.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val name = snapshot.child("name").value?.toString() ?: "No Name"
+                val name = snapshot.child("firstName").value?.toString() ?: "No Name"
                 val email = snapshot.child("email").value?.toString() ?: "No Email"
 
                 binding.userName.text = name
