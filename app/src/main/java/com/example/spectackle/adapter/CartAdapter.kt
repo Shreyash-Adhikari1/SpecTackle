@@ -16,10 +16,10 @@ import java.util.Locale
 
 class CartAdapter(
     private val context: Context,
-    private val cartItems: List<CartModel>,
-    private val productMap: Map<String, ProductModel>,
+    private val cartItems: ArrayList<CartModel>,
+    private val product: Map<String, ProductModel>,
     private val onRemoveClick: (String) -> Unit,
-    private val onQuantityChange: (String, Int) -> Unit
+    private val onQuantityChange: (String, Long) -> Unit // Changed to Long
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,23 +39,23 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val cartItem = cartItems[position]
-        val product = productMap[cartItem.productId]
-
+        val product = product[cartItem.productId]
         if (product != null) {
             // Set product name
             holder.productName.text = product.productName
 
             // Format price with currency symbol
             val formatter = NumberFormat.getCurrencyInstance(Locale.US)
-            val totalPrice = cartItem.price * cartItem.quantity
+            val totalPrice = cartItem.productPrice * cartItem.quantity
             holder.productPrice.text = formatter.format(totalPrice)
 
             // Load product image using Glide
             Glide.with(context)
-                .load(product.productImage)
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.error)
-                .into(holder.productImage)
+                .load(product.productImage) // Load the image from the URL
+                .placeholder(R.drawable.placeholder) // Show a placeholder while loading
+                .error(R.drawable.error) // Show an error image if loading fails
+                .into(holder.productImage) // Set the image into the ImageView
+
         } else {
             holder.productName.text = "Unknown Product"
             holder.productImage.setImageResource(R.drawable.placeholder)
@@ -73,14 +73,29 @@ class CartAdapter(
         holder.btnDecrease.setOnClickListener {
             val newQuantity = cartItem.quantity - 1
             if (newQuantity >= 1) {
+                // Update local data
+                cartItem.quantity = newQuantity
+                holder.productQuantity.text = newQuantity.toString() // Update UI immediately
+                notifyItemChanged(position) // Notify adapter of the change
+
+                // Update Firebase
                 onQuantityChange(cartItem.cartId, newQuantity)
             } else {
-                onRemoveClick(cartItem.cartId) // Auto-remove if quantity reaches 0
+                // Auto-remove if quantity reaches 0
+                onRemoveClick(cartItem.cartId)
             }
         }
 
         holder.btnIncrease.setOnClickListener {
-            onQuantityChange(cartItem.cartId, cartItem.quantity + 1)
+            val newQuantity = cartItem.quantity + 1
+
+            // Update local data
+            cartItem.quantity = newQuantity
+            holder.productQuantity.text = newQuantity.toString() // Update UI immediately
+            notifyItemChanged(position) // Notify adapter of the change
+
+            // Update Firebase
+            onQuantityChange(cartItem.cartId, newQuantity)
         }
     }
 

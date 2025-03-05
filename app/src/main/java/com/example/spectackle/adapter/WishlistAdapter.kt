@@ -12,12 +12,11 @@ import com.example.spectackle.R
 import com.example.spectackle.model.ProductModel
 import com.example.spectackle.model.WishlistModel
 
-
 class WishlistAdapter(
     private val context: Context,
-    private val wishlistItems: List<WishlistModel>,
-    private val productMap: Map<String, ProductModel>,
-    private val onRemoveClick: (String) -> Unit,
+    private val wishlistItems: ArrayList<WishlistModel>,
+    private val product: Map<String, ProductModel>,
+    private val onRemoveClick: (String) -> Unit // Remove product from wishlist callback
 ) : RecyclerView.Adapter<WishlistAdapter.WishlistViewHolder>() {
 
     class WishlistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,31 +32,27 @@ class WishlistAdapter(
 
     override fun onBindViewHolder(holder: WishlistViewHolder, position: Int) {
         val wishlistItem = wishlistItems[position]
-        val product = productMap[wishlistItem.productId]
+        val product = product[wishlistItem.productId]
 
         if (product != null) {
             // Set product name
             holder.productName.text = product.productName
 
-
             // Load product image using Glide
             Glide.with(context)
-                .load(product.productImage)
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.error)
-                .into(holder.productImage)
+                .load(product.productImage) // Load the image from the URL
+                .placeholder(R.drawable.placeholder) // Show a placeholder while loading
+                .error(R.drawable.error) // Show an error image if loading fails
+                .into(holder.productImage) // Set the image into the ImageView
         } else {
             holder.productName.text = "Unknown Product"
             holder.productImage.setImageResource(R.drawable.placeholder)
         }
 
-
         // Set click listeners
         holder.btnRemove.setOnClickListener {
             wishlistItem.wishlistId?.let { onRemoveClick(it) }
         }
-
-
     }
 
     override fun getItemCount(): Int = wishlistItems.size
